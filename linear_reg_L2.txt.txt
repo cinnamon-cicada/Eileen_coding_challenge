@@ -34,11 +34,11 @@ Top 20 for 1 - STAR
 757        missing     32
 813            one     31
 675           like     30
-958           read     29
 1251         trunk     29
-901         potter     26
-561          harry     26
+958           read     29
 512            get     26
+561          harry     26
+901         potter     26
 35          amazon     25
 182          cheap     25
 130         bought     25
@@ -53,9 +53,9 @@ Top 20 for 2 - STAR
 133      cardboard     34
 646          pages     32
 261   disappointed     29
-731        quality     24
 622            one     24
 532           like     24
+731        quality     24
 1073         would     23
 147          cheap     22
 559           made     21
@@ -63,9 +63,9 @@ Top 20 for 2 - STAR
 836         series     17
 153          chest     17
 103         bought     17
-747         really     16
-649          paper     16
 740           read     16
+649          paper     16
+747         really     16
 Top 20 for 3 - STAR
               word  count
 120          books    218
@@ -84,9 +84,9 @@ Top 20 for 3 - STAR
 432          first     30
 497          great     29
 737        missing     29
-463            get     26
 233      condition     26
 318   disappointed     26
+463            get     26
 190          chest     25
 Top 20 for 4 - STAR
            word  count
@@ -132,3 +132,12 @@ Top 20 for 5 - STAR
 577    bought    406
 3468     nice    396
 687      came    368
+
+
+*****
+PREDICT BY KEYWORD
+*****
+MODEL ACCURACY
+RMSE: 2.0172328104503707
+R^2: -3.6807224766264586
+PS C:\Users\admin\Desktop\VUDS_Project>

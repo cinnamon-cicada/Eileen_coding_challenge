@@ -94,7 +94,7 @@ print('\n')
 # CHECK ASSUMPTIONS
 
 # *** PREDICT RATINGS BY MONTH ***
-X = analyze_df['text'] 
+X = analyze_df['text'] # Extract features using TF-IDF
 y = analyze_df['ratings']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -103,38 +103,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 print('*****')
 print('PREDICT BY KEYWORD')
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding
-from torch.utils.data import DataLoader
-from datasets import load_metric
-
-BASE_MODEL = "camembert-base"
-LEARNING_RATE = 2e-5
-MAX_LENGTH = 256
-BATCH_SIZE = 16
-EPOCHS = 20
-
-X = analyze_df['text'] 
+X = vectorizer.fit_transform(analyze_df['text']) # Extract features using TF-IDF
 y = analyze_df['ratings']
-train, validate, test = np.split(analyze_df.sample(frac=1, random_state=42), 
-                                 [int(.6*len(analyze_df)), int(.8*len(analyze_df))])
 
-# Classes 1-5 correspond to star numbers
-id2label = {k:k for k in range(1, 6)}
-label2id = {k:k for k in range(1, 6)}
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
-model = AutoModelForSequenceClassification.from_pretrained(BASE_MODEL, id2label=id2label, label2id=label2id)
+# Initialize and train the regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
 
-ds = {"train": train, "validation": validate, "test": test}
-
-def preprocess_function(text):
-    label = text["ratings"] 
-    text = tokenizer(text["text"], truncation=True, padding="max_length", max_length=256)
-    text["label"] = label
-    return text
-
-for split in ds:
-    ds[split] = ds[split].map(preprocess_function, remove_columns=["text", "ratings"])
+# Predict the demand on the test set
+y_preds = model.predict(X_test)
 
 # *** MODEL EVALUATION ***
 print('*****')
