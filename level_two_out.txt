@@ -1,0 +1,134 @@
+[1 2 3 4 5]
+Ratings Data:
+1 :  168
+2 :  122
+3 :  181
+4 :  395
+5 :  4134
+
+
+Month Data:
+Apr :  333
+Aug :  403
+Dec :  586
+Feb :  479
+Jan :  751
+Jul :  341
+Jun :  332
+Mar :  413
+May :  323
+Nov :  330
+Oct :  372
+Sep :  337
+
+
+Top 20 for 1 - STAR
+              word  count
+120          books    156
+132            box    116
+1071           set    100
+117           book     69
+162      cardboard     52
+1346         would     48
+835          pages     40
+757        missing     32
+813            one     31
+675           like     30
+958           read     29
+1251         trunk     29
+901         potter     26
+561          harry     26
+512            get     26
+35          amazon     25
+182          cheap     25
+130         bought     25
+338   disappointed     24
+950        quality     23
+Top 20 for 2 - STAR
+              word  count
+96           books    144
+106            box     98
+838            set     74
+95            book     54
+133      cardboard     34
+646          pages     32
+261   disappointed     29
+731        quality     24
+622            one     24
+532           like     24
+1073         would     23
+147          cheap     22
+559           made     21
+408           good     18
+836         series     17
+153          chest     17
+103         bought     17
+747         really     16
+649          paper     16
+740           read     16
+Top 20 for 3 - STAR
+              word  count
+120          books    218
+128            box     98
+1060           set     97
+117           book     88
+1312         would     53
+827          pages     50
+523          harry     45
+887         potter     43
+487           good     42
+798            one     41
+159      cardboard     38
+658           like     37
+950           read     36
+432          first     30
+497          great     29
+737        missing     29
+463            get     26
+233      condition     26
+318   disappointed     26
+190          chest     25
+Top 20 for 4 - STAR
+           word  count
+188       books    424
+205         box    232
+1692        set    186
+187        book    141
+860       great    108
+2160      would    105
+255   cardboard    104
+840        good     99
+897       harry     90
+1311        one     90
+1524       read     85
+1441     potter     85
+1115       like     80
+1280       nice     72
+1688     series     70
+1460      price     66
+245        came     62
+1134     little     58
+2008      trunk     56
+1510    quality     54
+Top 20 for 5 - STAR
+         word  count
+548     books   2828
+4668      set   1598
+2420    harry   1215
+4192     read   1193
+2311    great   1174
+3927   potter   1152
+581       box    942
+4661   series    890
+544      book    830
+3115     love    788
+4198  reading    581
+2210     gift    566
+2262     good    498
+3582      one    448
+3994    price    419
+3117    loved    413
+5358     time    407
+577    bought    406
+3468     nice    396
+687      came    368
