@@ -12,14 +12,16 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import root_mean_squared_error
 from sklearn.metrics import r2_score
 
+# TEXT CLASSIFICATION IMPLEMENTATION
+
 # *** PART ONE ***
+# Overhead
 tk = WhitespaceTokenizer()
 nltk.download('stopwords')
 nltk.download('punkt_tab')
 stop_words = set(stopwords.words('english'))
 pd.set_option('display.max_columns', 100) 
 vectorizer = TfidfVectorizer()
-
 
 FILE_PATHS = ['export_harrypotter.csv']
 DATAFRAMES = []
@@ -29,7 +31,7 @@ for path in FILE_PATHS:
 analyze_df = pd.DataFrame(columns=DATAFRAMES[0].columns.tolist() + ['month'])
 
 # CLEAN DATA
-# Helper method to extract keywords
+# Extract keywords for basic visualization purposes
 def get_keywords(text):
     if type(text) == str:
         arr = nltk.word_tokenize(text) # get keywords
@@ -58,8 +60,7 @@ analyze_df = analyze_df[['ratings', 'month', 'text']]
 print(np.unique(analyze_df['ratings']))
 
 # *** PART TWO ***
-# goal: predict star rating distribution using bayesian regression
-# DETERMINE PRIORS
+# VISUALIZE DATA
 # Ratings distribution
 unique, counts = np.unique(analyze_df['ratings'], return_counts=True)
 print("Ratings Data: ")
@@ -91,28 +92,21 @@ for i in range(1,6):
 
 print('\n')
 
-# CHECK ASSUMPTIONS
-
-# *** PREDICT RATINGS BY MONTH ***
-X = analyze_df['text'] 
-y = analyze_df['ratings']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
 # *** PREDICT RATINGS BY KEYWORD ***
 print('*****')
 print('PREDICT BY KEYWORD')
 
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding
+# Create relevant variables
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding, TrainingArguments, Trainer
 from torch.utils.data import DataLoader
-from datasets import load_metric
 
-BASE_MODEL = "camembert-base"
+BASE_MODEL = "bert-base-uncased"
 LEARNING_RATE = 2e-5
 MAX_LENGTH = 256
 BATCH_SIZE = 16
 EPOCHS = 20
 
+# Create train, validate, and test data
 X = analyze_df['text'] 
 y = analyze_df['ratings']
 train, validate, test = np.split(analyze_df.sample(frac=1, random_state=42), 
@@ -127,20 +121,35 @@ model = AutoModelForSequenceClassification.from_pretrained(BASE_MODEL, id2label=
 
 ds = {"train": train, "validation": validate, "test": test}
 
+# Pre-process text
 def preprocess_function(text):
-    label = text["ratings"] 
+    label = text["ratings"]
     text = tokenizer(text["text"], truncation=True, padding="max_length", max_length=256)
     text["label"] = label
     return text
 
 for split in ds:
-    ds[split] = ds[split].map(preprocess_function, remove_columns=["text", "ratings"])
+    ds[split] = ds[split].apply(preprocess_function, axis=1)
 
-# *** MODEL EVALUATION ***
-print('*****')
-print('MODEL ACCURACY')
-rmse = root_mean_squared_error(y_test, y_preds)
-print('RMSE:', rmse)
+# Train model
+training_args = TrainingArguments(
+    output_dir="models/hp_reviews",
+    learning_rate=LEARNING_RATE,
+    per_device_train_batch_size=BATCH_SIZE,
+    per_device_eval_batch_size=BATCH_SIZE,
+    num_train_epochs=EPOCHS,
+    evaluation_strategy="epoch",
+    save_strategy="epoch",
+    metric_for_best_model="accuracy",
+    load_best_model_at_end=True,
+    weight_decay=0.01,
+)
 
-r2 = r2_score(y_test,y_preds)
-print('R^2:', r2)
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=ds["train"],
+    eval_dataset=ds["validation"]
+)
+
+trainer.train()

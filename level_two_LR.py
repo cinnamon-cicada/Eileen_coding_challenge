@@ -12,6 +12,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import root_mean_squared_error
 from sklearn.metrics import r2_score
 
+# LINEAR REGRESSION IMPLEMENTATION
+
 # *** PART ONE ***
 tk = WhitespaceTokenizer()
 nltk.download('stopwords')
@@ -111,15 +113,3 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # Initialize and train the regression model
 model = LinearRegression()
 model.fit(X_train, y_train)
-
-# Predict the demand on the test set
-y_preds = model.predict(X_test)
-
-# *** MODEL EVALUATION ***
-print('*****')
-print('MODEL ACCURACY')
-rmse = root_mean_squared_error(y_test, y_preds)
-print('RMSE:', rmse)
-
-r2 = r2_score(y_test,y_preds)
-print('R^2:', r2)
